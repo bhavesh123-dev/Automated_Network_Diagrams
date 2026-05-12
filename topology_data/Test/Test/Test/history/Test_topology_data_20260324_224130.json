@@ -1,0 +1,46 @@
+{
+  "devices": [
+    {
+      "hostname": "SW_LEME_CO1",
+      "ip": "192.168.1.101",
+      "platform": "Unknown",
+      "neighbors": [],
+      "vlans": [],
+      "ip_interfaces": [],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "dist",
+      "type": "dist"
+    },
+    {
+      "hostname": "SW-CHUB-EXT",
+      "ip": "192.168.1.100",
+      "platform": "Unknown",
+      "neighbors": [],
+      "vlans": [],
+      "ip_interfaces": [],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "wan_switch",
+      "type": "wan_switch"
+    },
+    {
+      "hostname": "SW_Test_02",
+      "ip": "192.168.1.102",
+      "platform": "Unknown",
+      "neighbors": [],
+      "vlans": [],
+      "ip_interfaces": [],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "access",
+      "type": "access"
+    }
+  ]
+}

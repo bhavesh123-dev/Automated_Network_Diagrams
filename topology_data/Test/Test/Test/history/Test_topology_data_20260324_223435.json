@@ -1,0 +1,261 @@
+{
+  "devices": [
+    {
+      "hostname": "DIST",
+      "ip": "192.168.1.101",
+      "platform": "Cisco IOS",
+      "neighbors": [
+        {
+          "hostname": "Access",
+          "ip": "192.168.1.102",
+          "local_port": "FastEthernet1/1",
+          "remote_port": "Port ID (outgoing port): FastEthernet1/1",
+          "link_type": "access"
+        },
+        {
+          "hostname": "WAN",
+          "ip": "192.168.1.100",
+          "local_port": "FastEthernet1/0",
+          "remote_port": "Port ID (outgoing port): FastEthernet1/0",
+          "link_type": "access"
+        }
+      ],
+      "vlans": [
+        {
+          "id": 1,
+          "name": "default",
+          "status": "active    Fa1/0, Fa1/1, Fa1/2, Fa1/3, Fa1/4, Fa1/5, Fa1/6, Fa1/7, Fa1/8, Fa1/9, Fa1/10, Fa1/11, Fa1/12, Fa1/13, Fa1/14, Fa1/15"
+        },
+        {
+          "id": 10,
+          "name": "MGMT",
+          "status": "active"
+        },
+        {
+          "id": 20,
+          "name": "user",
+          "status": "active"
+        },
+        {
+          "id": 1002,
+          "name": "fddi-default",
+          "status": "active"
+        },
+        {
+          "id": 1003,
+          "name": "token-ring-default",
+          "status": "active"
+        },
+        {
+          "id": 1004,
+          "name": "fddinet-default",
+          "status": "active"
+        },
+        {
+          "id": 1005,
+          "name": "trnet-default",
+          "status": "active"
+        }
+      ],
+      "ip_interfaces": [
+        {
+          "interface": "Vlan1",
+          "ip": "192.168.1.101",
+          "status": "YES",
+          "protocol": "NVRAM  up                    up"
+        }
+      ],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "dist",
+      "type": "dist",
+      "tier": 4
+    },
+    {
+      "hostname": "WAN",
+      "ip": "192.168.1.100",
+      "platform": "Cisco IOS",
+      "neighbors": [
+        {
+          "hostname": "DIST",
+          "ip": "192.168.1.101",
+          "local_port": "FastEthernet1/0",
+          "remote_port": "Port ID (outgoing port): FastEthernet1/0",
+          "link_type": "access"
+        }
+      ],
+      "vlans": [
+        {
+          "id": 1,
+          "name": "default",
+          "status": "active    Fa1/0, Fa1/4, Fa1/5, Fa1/6, Fa1/7, Fa1/8, Fa1/9, Fa1/10, Fa1/11, Fa1/12, Fa1/13, Fa1/14, Fa1/15"
+        },
+        {
+          "id": 10,
+          "name": "MGMT",
+          "status": "active"
+        },
+        {
+          "id": 20,
+          "name": "User",
+          "status": "active"
+        },
+        {
+          "id": 1002,
+          "name": "fddi-default",
+          "status": "active"
+        },
+        {
+          "id": 1003,
+          "name": "token-ring-default",
+          "status": "active"
+        },
+        {
+          "id": 1004,
+          "name": "fddinet-default",
+          "status": "active"
+        },
+        {
+          "id": 1005,
+          "name": "trnet-default",
+          "status": "active"
+        }
+      ],
+      "ip_interfaces": [
+        {
+          "interface": "FastEthernet0/0",
+          "ip": "192.168.1.10",
+          "status": "YES",
+          "protocol": "NVRAM  administratively down down"
+        },
+        {
+          "interface": "Vlan1",
+          "ip": "192.168.1.100",
+          "status": "YES",
+          "protocol": "NVRAM  up                    up"
+        }
+      ],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "wan_switch",
+      "type": "wan_switch",
+      "tier": 1,
+      "wan_connections": [
+        {
+          "interface": "Fa1/1",
+          "description": "up ISP",
+          "connected_device": "ISP",
+          "device_type": "isp"
+        },
+        {
+          "interface": "Fa1/3",
+          "description": "up SDWAN",
+          "connected_device": "SDWAN",
+          "device_type": "sdwan"
+        }
+      ]
+    },
+    {
+      "hostname": "Access",
+      "ip": "192.168.1.102",
+      "platform": "Cisco IOS",
+      "neighbors": [
+        {
+          "hostname": "DIST",
+          "ip": "192.168.1.101",
+          "local_port": "FastEthernet1/1",
+          "remote_port": "Port ID (outgoing port): FastEthernet1/1",
+          "link_type": "access"
+        }
+      ],
+      "vlans": [
+        {
+          "id": 1,
+          "name": "default",
+          "status": "active    Fa1/0, Fa1/1, Fa1/2, Fa1/3, Fa1/4, Fa1/5, Fa1/6, Fa1/7, Fa1/8, Fa1/9, Fa1/10, Fa1/11, Fa1/12, Fa1/13, Fa1/14, Fa1/15"
+        },
+        {
+          "id": 10,
+          "name": "MGMT",
+          "status": "active"
+        },
+        {
+          "id": 20,
+          "name": "user",
+          "status": "active"
+        },
+        {
+          "id": 1002,
+          "name": "fddi-default",
+          "status": "active"
+        },
+        {
+          "id": 1003,
+          "name": "token-ring-default",
+          "status": "active"
+        },
+        {
+          "id": 1004,
+          "name": "fddinet-default",
+          "status": "active"
+        },
+        {
+          "id": 1005,
+          "name": "trnet-default",
+          "status": "active"
+        }
+      ],
+      "ip_interfaces": [
+        {
+          "interface": "Vlan1",
+          "ip": "192.168.1.102",
+          "status": "YES",
+          "protocol": "NVRAM  up                    up"
+        }
+      ],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "access",
+      "type": "access",
+      "tier": 5
+    },
+    {
+      "hostname": "ISP",
+      "ip": "",
+      "platform": "External",
+      "neighbors": [],
+      "vlans": [],
+      "ip_interfaces": [],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "isp",
+      "type": "isp",
+      "is_synthetic": true,
+      "tier": 0
+    },
+    {
+      "hostname": "SDWAN",
+      "ip": "",
+      "platform": "External",
+      "neighbors": [],
+      "vlans": [],
+      "ip_interfaces": [],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "sdwan",
+      "type": "sdwan",
+      "is_synthetic": true,
+      "tier": 2
+    }
+  ]
+}
