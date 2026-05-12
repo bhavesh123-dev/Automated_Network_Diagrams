@@ -1,0 +1,167 @@
+<mxfile host="65bd71144e" compressed="false">
+    <diagram id="Network Topology" name="Network Topology">
+        <mxGraphModel dx="1756" dy="464" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <object label="DIST 192.168.1.101" tooltip="IP: 192.168.1.101&#10;Platform: Cisco IOS&#10;Type: DIST" id="DIST">
+                    <mxCell style="shape=mxgraph.cisco.switches.switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                        <mxGeometry x="60" y="760" width="130" height="80" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="WAN 192.168.1.100" tooltip="IP: 192.168.1.100&#10;Platform: Cisco IOS&#10;Type: WAN_SWITCH" id="WAN">
+                    <mxCell style="shape=mxgraph.cisco.switches.multilayer_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                        <mxGeometry x="60" y="320" width="130" height="80" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Access 192.168.1.102" tooltip="IP: 192.168.1.102&#10;Platform: Cisco IOS&#10;Type: ACCESS" id="Access">
+                    <mxCell style="shape=mxgraph.cisco.switches.workgroup_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                        <mxGeometry x="60" y="960" width="130" height="80" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="ISP " tooltip="IP: &#10;Platform: External&#10;Type: ISP" id="ISP">
+                    <mxCell style="shape=rectangle;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fillColor=#E3F2FD;" parent="1" vertex="1">
+                        <mxGeometry x="60" y="70" width="130" height="80" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="SDWAN " tooltip="IP: &#10;Platform: External&#10;Type: SDWAN" id="SDWAN">
+                    <mxCell style="shape=mxgraph.cisco.routers.router;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fillColor=#4CAF50;" parent="1" vertex="1">
+                        <mxGeometry x="60" y="540" width="130" height="80" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="VLANS: VLAN10, VLAN20" id="DIST_vlan">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="760" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="IP: Vlan1: 192.168.1.101" id="DIST_ip">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="790" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="VLANS: VLAN10, VLAN20" id="WAN_vlan">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="320" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="IP: Vlan1: 192.168.1.100" id="WAN_ip">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="350" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="VLANS: VLAN10, VLAN20" id="Access_vlan">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="960" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="IP: Vlan1: 192.168.1.102" id="Access_ip">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="990" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="No VLANs" id="ISP_vlan">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="70" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="No IPs" id="ISP_ip">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="100" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="No VLANs" id="SDWAN_vlan">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="540" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="No IPs" id="SDWAN_ip">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="-140" y="570" width="120" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="legend_bg" id="legend_bg">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#cccccc;" parent="1" vertex="1">
+                        <mxGeometry x="2790" y="60" width="150" height="145" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Legend" id="legend_title">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;" parent="1" vertex="1">
+                        <mxGeometry x="2790" y="65" width="150" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="legend_icon_access" id="legend_icon_access">
+                    <mxCell style="shape=mxgraph.cisco.switches.workgroup_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                        <mxGeometry x="2800" y="90" width="20" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Access" id="legend_label_access">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="2825" y="90" width="100" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="legend_icon_dist" id="legend_icon_dist">
+                    <mxCell style="shape=mxgraph.cisco.switches.switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                        <mxGeometry x="2800" y="115" width="20" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Dist" id="legend_label_dist">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="2825" y="115" width="100" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="legend_icon_isp" id="legend_icon_isp">
+                    <mxCell style="shape=rectangle;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fillColor=#E3F2FD;" parent="1" vertex="1">
+                        <mxGeometry x="2800" y="140" width="20" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Isp" id="legend_label_isp">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="2825" y="140" width="100" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="legend_icon_sdwan" id="legend_icon_sdwan">
+                    <mxCell style="shape=mxgraph.cisco.routers.router;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fillColor=#4CAF50;" parent="1" vertex="1">
+                        <mxGeometry x="2800" y="165" width="20" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Sdwan" id="legend_label_sdwan">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="2825" y="165" width="100" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="legend_icon_wan_switch" id="legend_icon_wan_switch">
+                    <mxCell style="shape=mxgraph.cisco.switches.multilayer_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" parent="1" vertex="1">
+                        <mxGeometry x="2800" y="190" width="20" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Wan_switch" id="legend_label_wan_switch">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" parent="1" vertex="1">
+                        <mxGeometry x="2825" y="190" width="100" height="20" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="FastEthernet1/1 Port ID (outgoing port): FastEthernet1/1" source="DIST" target="Access" id="4dc53b482b32d6c2468288d33dc9e0ec">
+                    <mxCell style="endArrow=none;" parent="1" source="DIST" target="Access" edge="1">
+                        <mxGeometry relative="1" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="FastEthernet1/0 Port ID (outgoing port): FastEthernet1/0" source="DIST" target="WAN" id="bd3b34d13068c77bab0db9fdbffa5e20">
+                    <mxCell style="endArrow=none;" parent="1" source="DIST" target="WAN" edge="1">
+                        <mxGeometry x="-0.5556" y="-25" relative="1" as="geometry">
+                            <mxPoint as="offset"/>
+                        </mxGeometry>
+                    </mxCell>
+                </object>
+                <object label="Fa1/1 unknown" source="WAN" target="ISP" id="339a15f56f47e284631e00dad2c23fd0">
+                    <mxCell style="endArrow=none;" parent="1" source="WAN" target="ISP" edge="1">
+                        <mxGeometry relative="1" as="geometry"/>
+                    </mxCell>
+                </object>
+                <object label="Fa1/3 unknown" source="WAN" target="SDWAN" id="49160b9e8747be042dca8b4ba6a9d9a8">
+                    <mxCell style="endArrow=none;" parent="1" source="WAN" target="SDWAN" edge="1">
+                        <mxGeometry relative="1" as="geometry"/>
+                    </mxCell>
+                </object>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

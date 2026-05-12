@@ -1,0 +1,33 @@
+<mxfile type="device" compressed="false">
+    <diagram id="Network Topology" name="Network Topology">
+      <mxGraphModel dx="1360" dy="864" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="1">
+        <root>
+          <mxCell id="0" />   
+          <mxCell id="1" parent="0" />
+        <object id="ESW2" label="ESW2 192.168.1.100" tooltip="IP: 192.168.1.100&#10;Platform: Cisco IOS">
+      <mxCell style="mxgraph.cisco.routers.router" vertex="1" parent="1">
+          <mxGeometry x="109.0" y="661.0" width="78" height="78" as="geometry" />
+      </mxCell>
+    </object><object id="ESW1" label="ESW1 192.168.1.101" tooltip="IP: 192.168.1.101&#10;Platform: Cisco IOS">
+      <mxCell style="mxgraph.cisco.routers.router" vertex="1" parent="1">
+          <mxGeometry x="109.0" y="917.0" width="78" height="78" as="geometry" />
+      </mxCell>
+    </object><object id="ESW3" label="ESW3 192.168.1.102" tooltip="IP: 192.168.1.102&#10;Platform: Cisco IOS">
+      <mxCell style="mxgraph.cisco.routers.router" vertex="1" parent="1">
+          <mxGeometry x="285.0" y="917.0" width="78" height="78" as="geometry" />
+      </mxCell>
+    </object><object id="f57a84b78bf501414d669cec8c871ae6" label="FastEthernet1/0 Port ID (outgoing port): FastEthernet1/0" source="ESW2" target="ESW1">
+      <mxCell style="endArrow=none;" edge="1" parent="1" source="ESW2" target="ESW1">
+          <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </object><object id="810160145ea6708561d0571f9cc3182c" label="FastEthernet1/2 Port ID (outgoing port): FastEthernet1/2" source="ESW2" target="ESW3">
+      <mxCell style="endArrow=none;" edge="1" parent="1" source="ESW2" target="ESW3">
+          <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </object><object id="5f4be1c35a068c1875ca1c5c3781fb9e" label="FastEthernet1/1 Port ID (outgoing port): FastEthernet1/1" source="ESW1" target="ESW3">
+      <mxCell style="endArrow=none;" edge="1" parent="1" source="ESW1" target="ESW3">
+          <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </object></root>
+      </mxGraphModel>
+    </diagram></mxfile>
