@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Network Topology Schema",
+  "description": "Schema for topology_data.json used by N2G diagram generator",
+  "type": "object",
+  "required": ["devices"],
+  "properties": {
+    "devices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["hostname", "ip", "type", "platform", "neighbors"],
+        "properties": {
+          "hostname": {
+            "type": "string",
+            "description": "Device hostname. Use naming convention: CORE-*, DIST-*, ACCESS-*, FIRE-*",
+            "examples": ["CORE-RTR-01", "DIST-SW-01", "ACCESS-SW-01", "FIREWALL-01"]
+          },
+          "ip": {
+            "type": "string",
+            "format": "ipv4",
+            "description": "Management IP address",
+            "examples": ["10.0.0.1", "192.168.1.1"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["router", "switch", "firewall", "server", "ap", "wlc", "loadbalancer"],
+            "description": "Device type — maps to Cisco Draw.io shape"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Device platform / model string",
+            "examples": ["Cisco IOS-XE", "Cisco Catalyst 3850", "Cisco ASA", "Cisco NX-OS"]
+          },
+          "neighbors": {
+            "type": "array",
+            "description": "CDP/LLDP neighbour list",
+            "items": {
+              "type": "object",
+              "required": ["hostname", "local_port", "remote_port"],
+              "properties": {
+                "hostname": {
+                  "type": "string",
+                  "description": "Neighbour device hostname"
+                },
+                "local_port": {
+                  "type": "string",
+                  "description": "Interface on THIS device facing the neighbour",
+                  "examples": ["GigabitEthernet0/0", "TenGigabitEthernet1/0/1", "eth0"]
+                },
+                "remote_port": {
+                  "type": "string",
+                  "description": "Interface on the NEIGHBOUR device",
+                  "examples": ["GigabitEthernet1/0/1", "Ethernet1/1"]
+                },
+                "ip": {
+                  "type": "string",
+                  "format": "ipv4",
+                  "description": "Neighbour IP (optional, filled by CDP)"
+                }
+              }
+            }
+          },
+          "vlans": {
+            "type": "array",
+            "description": "VLAN database information",
+            "items": {
+              "type": "object",
+              "required": ["id", "name"],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "VLAN ID number",
+                  "minimum": 1,
+                  "maximum": 4094
+                },
+                "name": {
+                  "type": "string",
+                  "description": "VLAN name",
+                  "examples": ["VLAN0001", "Management", "Data", "Voice"]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["active", "suspend", "shutdown"],
+                  "description": "VLAN operational status"
+                }
+              }
+            }
+          },
+          "ip_interfaces": {
+            "type": "array",
+            "description": "IP interface configuration",
+            "items": {
+              "type": "object",
+              "required": ["interface", "ip"],
+              "properties": {
+                "interface": {
+                  "type": "string",
+                  "description": "Interface name",
+                  "examples": ["Vlan1", "GigabitEthernet0/0", "Loopback0"]
+                },
+                "ip": {
+                  "type": "string",
+                  "format": "ipv4",
+                  "description": "IP address assigned to interface"
+                },
+                "subnet": {
+                  "type": "string",
+                  "description": "Subnet mask",
+                  "examples": ["255.255.255.0", "/24"]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["up", "down", "administratively down"],
+                  "description": "Interface operational status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional metadata about this topology snapshot",
+      "properties": {
+        "generated_at": { "type": "string", "format": "date-time" },
+        "site":         { "type": "string", "examples": ["HQ", "Branch-01"] },
+        "notes":        { "type": "string" }
+      }
+    }
+  }
+}

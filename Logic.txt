@@ -1,0 +1,274 @@
+#method to pull devices details :
+ISP : not possible using ssh , only option is to collect inteface descrition of WAN switch 
+Firewall : not possible using ssh , only option is to collect inteface descrition of WAN switch
+WAN Switch : SSH possible , exact information can be understood
+Distribution Switch : SSH possible , exact information can be understood
+Access Switch : SSH possible , exact information can be understood
+Access Point : not possible using ssh , only option is using commands "show cdp neighbours" and "show lldp neighbours"
+
+Icons of devices
+ISP : Simple Squere box 
+Firewall : Simple Squere box
+WAN Switch : check device platform using ssh
+Distribution Switch : check device platform using ssh
+Access Switch : check device platform using ssh
+Access Point : check "show cdp neighbours" and "show lldp neighbours" to derive Access point platform
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+perform below logic always
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Logic 1 : update stict grid math rule in layout_engine and grid_layout as Below
+#Placement of network Object / Node / Device in Network Diagram
+
+devices : ISP , WAN Switch, Firewall, SDWAN , Distribution Switch, Access Switch, Access point etc
+I like tier idea so graphviz and strict grid math follow correct order
+
+add key value pair of tier on topology data so diagram generation have solid input where to place which device
+
+ISP (tier 0) → WAN Switch (tier 1) → SDWAN (tier 2) → Firewall (tier 3) → Distribution (tier 4) → Access (tier 5) → AP (tier 6)
+
+
+ "hostname": "SDWAN",
+      "ip": "",
+      "platform": "External",
+      "neighbors": [],
+      "vlans": [],
+      "ip_interfaces": [],
+      "region": "Test",
+      "country": "Test",
+      "city": "Test",
+      "stack": false,
+      "node_type": "sdwan",
+      "type": "sdwan",
+      "is_synthetic": true,
+	  "tier:2
+    }
+
+Page canvas size : is not strict can be expanded as per need
+Page Grid Overview
+Row 1:  Page 1 | Page 2 | Page 3 | Page N
+Row 2:  Page 4 | Page 5 | Page 6 | Page N 
+Row 3: can be added as per need  | Page N 
+Row N : can be added as per need | Page N
+Row N : can be added as per need | Page N
+
+
+PAGE DEVICE PLACEMENT RULES (3×2 GRID) only for site having access switches less than 9
+for more than 9 access switches please follow attached Reference_Architecture.drawio , generate second layout_engine_big_sites.py for big sites.
+
+##PAGE 1 (Top Left) — ISP & External Connectivity
+Placement Rules
+
+Place all ISP clouds at the very top of Page 1.
+Align ISP links towards Page 2 on wan switch only
+Keep ISP icons centered horizontally.
+
+Purpose
+
+This page is the "outside world" entry point.
+
+##PAGE 2 (Top Middle) — Firewall & SDWAN & "WAN Switch"
+Placement Rules
+WAN Switch on top of page 2
+SDWAN below WAN switch at top middle of Page 2.
+Firewall nodes directly below the SDWAN. (ignore if firewall is not present at site)
+Use symmetrical spacing left/right.
+
+Symmetry
+If dual Firewall or dual "WAN switches" exist, place:
+Left switch aligned to left half, right switch aligned to right half.
+
+
+Navigation Rules
+Incoming links from Page 1 (ISP).
+Downlinks extend to Page 5 (Core/Distribution).
+
+
+##PAGE 3 (Top Right) — Blank used to expland spacing between devices
+
+##PAGE 4 (Bottom Right) — Blank used to expland spacing between devices
+page 5 object can expand here
+
+##PAGE 5 (Bottom Middle) (upper half of page) — Distribution Layer  
+Placement Rules
+Aligned vertically under Page2 SDWAN device
+
+Distribution Switch # if Switch in stack just add one more icon on top of it ,second icon shifted 5*5 on first icon place
+ 
+Align vertically under Page 2 SDWAN or Firewall  (maintains vertical logical flow).
+uplink to WAN switches in Page 2.
+downlink goes to access switches in lower half of page
+
+
+##PAGE 5 (Bottom Middle)(lower half of page) —  Access Layer 
+Placement Rules
+
+Access switches arranged in rows or blocks.
+WiFi APs grouped clearly.
+Each access block aligned under Distribution path from upper half of page
+Each block corresponds to a distribution switch uplink path any uplink must not overlap with any other object
+
+
+Symmetry Rules
+
+Access switches grouped evenly to avoid clutter.
+Use identical vertical spacing for segments.
+
+##PAGE 6 (Bottom Right) — Blank used to expland spacing between devices
+page 5 object can expand here
+
+
+##Aesthetic Standards for the 3×2 Layout
+Horizontal Flow Rules
+Horizontal Alignment
+
+Page1 → ISP
+Page2 → WAN Switch, SDWAN, Firewall
+Page3 → spacing
+Page4 → spacing
+Page5 → Distribution(upper half) + Access Switches(lower half)
+Page6 → spacing
+
+Vertical Flow Rules
+Traffic always flows downward:
+ISP →WAN Switch → SD‑WAN → Firewall → Dist Switch → Access Switch → User
+
+Network Hierarchy (Top → Bottom)
+
+Devices must be placed following vertical traffic flow:
+ISP
+↓
+WAN Switch
+↓
+SDWAN
+↓
+Firewall
+↓
+Distribution Switch
+↓
+Access Switch
+↓
+End Devices
+
+
+#Alignment Rules
+
+Align similar devices across pages in the same row or column.
+Keep identical spacing between icons to create professional symmetry.
+
+
+Layout Expansion Logic
+Page5 left side → Page4
+Page5 right side → Page6
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Logic 2 : at any site if for more than 9 access switches exist then follow attached Reference_Architecture.drawio , 
+generate second layout_engine_big_sites.py for big sites and integrate it in generate_diagram.py
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Logic 3 : Identify NON Access Switches
+
+in topology_data.json  
+"node_type": "access"  (provided in devices.csv file)
+"type": "access" (this logic will help to accurately identify switches)
+
+Logic : any cisco Switch which is not "Access switch" and can not be placed as access switch in Diagram
+this switches can be "WAN Switch" , "Server Switch" , "other Switch"
+
+Placement of this switches 
+"WAN Switch" -- Below ISP and above SDWAN
+"Access Switch" -- Below Distribution Switch
+"Server Switch" and "other Switch" -- Place this Switch in same row of Distribution Switch , if two switches then one in right side and second in left side
+any Switch is having NX-OS Plateform it is clear "Server Switch" no need further classification
+
+patterns to Identify NON Access Switch
+
+Access Switch pattern : 
+
+Step 1 : get output of "show vlan brief" and have each vlan (example vlan 420) to check count #ignore vlan 1 always for step 2 
+step 1 : Check with command " show interface status | count N" # Example " show interface status | count 420" #ignore vlan 1 always for counting 
+step 3: if any single vlan is counting is  more than 10 times (except vlan 1) then it is confirm "Access Switch" 
+also check command as OR operator "show running-config | count port-security|authentication" if count is more than 10 then it is confirm "Access Switch" 
+" show interface status | count N" or "show running-config | count port-security|authentication" output greater than 10 always access switch
+
+Step 4 : if any switch does not follow above pattern then identify it as non access switch Follow taks 4 to identify non CDP/LLDP neighbours and draw them in diagram as stated in below task 4
+
+#Misc
+if "NX-OS" = "Server switch"
+if Switch is having less than 20 Ports = "Mini Switch" , Add this switches in Access layer of diagram
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Logic 4 : Identify CDP/LLDP and NON CDP/LLDP neighbours
+
+update live_puller.py and resulted topology_data.json pattern as per below structure 
+Step 1: check "show cdp neighbours" and "show lldp neighbours" to identify cdp/lldp neighbours to map there connection in topology_data.json file
+
+step 2: for remaining non cdp/lldp neighbours check "show interface trunk" , ignore intefaces which having cdp/lldp neighbours in step 1 and consider only remaining interface
+
+step 3 : for remaining intefaces in step 2 check "show interface description | include up" and map Interface description against non cdp/lldp neighbours
+
+Step 4 : Device type : in above three steps all non cdp/lldp neighbours are identified and their device type must be interface description, check output of inteface description to classify NON CDP/LLDP device type , this can be ISP , SDWAN , Firewall etc (word/strings for this already defined in config.py as TIER_KEYWORDS)
+        
+Step 5 : Device icon : now device icon for non cdp/lldp neighbours should be rectangle box and their device type(Interface description) should be placed in rectangle box as text.
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Logic 5 : update topology_data.json destination
+curretly only one topology_data.json file is generated which is not good and this file is overwritten everytime
+
+topology_data.json should be updated in below structure
+
+Folder topology_data
+Region>Country>City>City_topology_data_latest.json
+Example: LEME>UAE>Abu dhabi>Abu dhabi_topology_data_latest.json
+
+when new Diagram is generated it should not replace old file instead old file must be renamed as archive of old data to have track record of changes
+Example of old file archive style : LEME>UAE>Abu dhabi>Abu dhabi_topology_data_.*(date and time of rename).json
+
+latest.json
+history/
+   ├── timestamp1.json
+   ├── timestamp2.json
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Logic 6 : Graphviz Device Placement in Diagram
+Graphviz not following Hierchical order for placement of devices thus output Diagram is having random placement of devices.
+
+Network Hierarchy (Top → Bottom)
+
+Devices must be placed following vertical traffic flow as per key:value("node_type": "access", "type": "access") data on topology_data.json file 
+
+ISP (identified in task 3)
+↓
+WAN Switch (Switch idetified in task 4)
+↓
+SDWAN (identified in task 3)
+↓
+Firewall (if exist) (identified in task 3)
+↓
+Distribution Switch 
+↓
+Access Switch
+↓
+Access points
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Logic 7 : Link classification
+Access link
+Trunk link
+L3 link
+
+if interface in trunk:
+    link_type = "trunk"
+elif routed_port:
+    link_type = "l3"
+else:
+    link_type = "access"
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+Logic 8 : MAC OUI based grouping of NON CDP/lldp neighbors

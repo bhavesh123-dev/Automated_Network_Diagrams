@@ -1,0 +1,285 @@
+# Network Automation Project - Rules and Configuration Log
+# Generated on: 2026-03-17
+# This file documents all rules, configurations, and login methods used in the project
+
+## Project Overview
+This project automates Cisco network topology discovery and diagram generation using:
+- Jump server for secure access (192.168.1.10)
+- SSH tunneling to network devices
+- CDP neighbor discovery
+- Draw.io diagram generation with layout engines
+
+## Login Methods
+
+### Jump Server Access
+- **IP**: 192.168.1.10
+- **Username**: root (from JUMP_USERNAME env var or config.py default)
+- **Password**: From JUMP_PASSWORD env var or config.py
+- **Connection Method**: Paramiko SSHClient with AutoAddPolicy for host keys
+- **Timeouts**: 10 seconds
+- **Post-Connection Delay**: 2 seconds (jump server may be slow)
+
+### Device Access
+- **Username**: admin (from NET_USERNAME env var or config.py default)
+- **Password**: From NET_PASSWORD env var or config.py
+- **Connection Method**: SSH tunnel through jump server using direct-tcpip channel
+- **Pre-Device Delay**: 1 second before attempting device login
+- **Legacy Algorithm Support**:
+  - KEX: Allows diffie-hellman-group1-sha1
+  - Ciphers: Allows aes128-cbc, 3des-cbc, aes192-cbc, aes256-cbc
+  - MACs: Allows hmac-sha1 and variants
+
+### Commands Executed on Devices
+1. `show version | include uptime` - Get hostname
+2. `show version | include Cisco` - Get platform
+3. `show cdp neighbors detail` - Get neighbor information
+4. `show lldp neighbors` - Additional neighbor discovery
+5. `show vlan-switch brief` - VLAN information
+6. `show ip interface brief | exclude unassigned` - IP interface info
+7. `show interface description | include up` - WAN switch connections
+
+## Device Classification Rules
+
+### Type Mapping from CSV
+- "Access" → "access"
+- "WAN" → "wan_switch"
+- "Distribution" → "dist"
+- "NX-OS" → "server"
+
+### Hostname-based Classification
+TIER_KEYWORDS = {
+    "firewall":   ["FIRE", "FW", "ASA", "PIX", "NGFW", "PALO"],
+    "sdwan":      ["SDWAN", "VCE", "VELO", "EDGE"],
+    "wan_switch": ["WAN"],
+    "router":     ["CORE", "RTR", "ROUTER", "GW", "GATEWAY", "EDGE", "PE", "CE"],
+    "dist":       ["DIST", "DSW", "DISTRIBUTION", "AGG", "AGGR"],
+    "server":     ["SRV", "SERVER", "ESX", "ESXI", "VCENTER"],
+    "ap":         ["AP-", "WAP", "WLAN"],
+}
+
+### Platform-based Hints
+PLATFORM_TYPE_HINTS = [
+    ("ASR", "core_router"),
+    ("NEXUS", "core_router"),
+    ("C7600", "core_router"),
+    ("ISR", "edge_router"),
+    ("C1111", "edge_router"),
+    ("C1100", "edge_router"),
+    ("VELOCLOUD", "sdwan"),
+    ("VCE", "sdwan"),
+    ("EDGE", "sdwan"),
+    ("C9500", "dist"),
+    ("C9400", "dist"),
+    ("C9300", "switch"),
+    ("C9200", "switch"),
+    ("C3850", "switch"),
+    ("C3650", "switch"),
+    ("CAT", "dist"),
+    ("ASA", "asa"),
+    ("FIREPOWER", "firewall"),
+    ("FW", "firewall"),
+    ("WLC", "wlc"),
+    ("AIRONET", "ap"),
+    ("IOS", "switch"),
+    ("Cloud", "cloud"),
+]
+
+## Diagram Layout Rules
+
+### Tier Y Positions
+TIER_Y = {
+    "isp":         50,   # ISP Links at top
+    "wan_switch": 150,  # WAN Switch for ISP connections
+    "sdwan":      250,  # Velocloud SDWAN
+    "firewall":   350,  # Firewall
+    "router":     450,  # Core routers
+    "dist":       550,  # Distribution switches
+    "switch":     550,  # treat switches as distribution by default
+    "access":     650,  # Access switches
+    "server":     750,  # Servers at bottom
+}
+
+### Page Configuration
+- PAGE_WIDTH: 1000 units
+- PAGE_HEIGHT: 1400 units
+- GRID_MARGIN: 60 units
+- NODE_WIDTH: 130 units
+- NODE_HEIGHT: 80 units
+- TIER_SPACING_X: 200 units
+- TIER_SPACING_Y: 180 units
+
+### Layout Engines
+1. **Graphviz Dot** (recommended):
+   - Algorithm: hierarchical top-down
+   - Prevents overlaps
+   - Tier ordering: ["isp", "sdwan", "firewall", "wan_switch", "dist", "access", "server", "ap", "router"]
+   - Requires: graphviz package
+
+2. **Grid Layout** (fallback):
+   - 6-page A4 grid (3x2)
+   - Fixed positions per device type
+   - Page-based placement following network hierarchy
+   - No external dependencies
+
+## Device Shape Library (Cisco)
+
+DEVICE_SHAPES = {
+    "router":       "shape=mxgraph.cisco.routers.router;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "core_router":  "shape=mxgraph.cisco.routers.router;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "edge_router":  "shape=mxgraph.cisco.routers.router;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "switch":       "shape=mxgraph.cisco.switches.workgroup_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "dist":         "shape=mxgraph.cisco.switches.switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "access":       "shape=mxgraph.cisco.switches.workgroup_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "wan_switch":   "shape=mxgraph.cisco.switches.multilayer_switch;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "firewall":     "shape=mxgraph.cisco.security.firewall;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "asa":          "shape=mxgraph.cisco.security.asa_5500;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "sdwan":        "shape=mxgraph.cisco.routers.router;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fillColor=#4CAF50;",
+    "server":       "shape=mxgraph.cisco.servers.server;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "ap":           "shape=mxgraph.cisco.wireless.wireless_access_point;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "wlc":          "shape=mxgraph.cisco.wireless.wireless_lan_controller;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "loadbalancer": "shape=mxgraph.cisco.load_balancers.load_balancer;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "cloud":        "shape=mxgraph.cisco.misc.cloud;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "pc":           "shape=mxgraph.cisco.endpoints.pc;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "ip_phone":     "shape=mxgraph.cisco.endpoints.ip_phone;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+    "default":      "shape=rectangle;sketch=0;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;",
+}
+
+## Special Placement Rules
+
+### WAN Switch Placement
+- **Location**: Page 2 (top middle), below SDWAN
+- **Coordinates**: x = PAGE_WIDTH * 1 + (PAGE_WIDTH / 2), y = PAGE_HEIGHT * 0 + margin + (NODE_HEIGHT / 2) + 200
+- **Connected Devices**: All "up" interfaces show connections to external devices
+- **External Device Types**: ISP, Firewall, SDWAN, Edge, Velo
+- **External Device Representation**: Square boxes (since not discoverable by live_puller)
+
+### Distribution Switch Placement
+- **Location**: Page 5 (bottom middle), upper half
+- **Coordinates**: x = PAGE_WIDTH * 1 + (PAGE_WIDTH / 2), y = PAGE_HEIGHT * 1 + margin + (NODE_HEIGHT / 2)
+- **Stack Support**: Multiple switches stacked vertically with 20px offset
+
+### SDWAN Placement
+- **Location**: Page 2 (top middle), top position
+- **Coordinates**: x = PAGE_WIDTH * 1 + (PAGE_WIDTH / 2), y = PAGE_HEIGHT * 0 + margin + (NODE_HEIGHT / 2)
+
+### Firewall Placement
+- **Location**: Page 2 (top middle), below SDWAN (external device)
+- **Coordinates**: x = PAGE_WIDTH * 1 + (PAGE_WIDTH / 2), y = PAGE_HEIGHT * 0 + margin + (NODE_HEIGHT / 2) + 200
+- **Representation**: Red square box
+
+### ISP Placement
+- **Location**: Page 1 (top left), top position
+- **Coordinates**: x = PAGE_WIDTH * 0 + (PAGE_WIDTH / 2), y = PAGE_HEIGHT * 0 + margin + (NODE_HEIGHT / 2)
+- **Representation**: Light blue square box
+
+### Access Switch & AP Placement
+- **Location**: Page 5 (bottom middle), lower half
+- **Arrangement**: 3 columns, stacked rows
+- **Coordinates**: Base at x = PAGE_WIDTH * 1 + margin + (NODE_WIDTH / 2), y = PAGE_HEIGHT * 1 + (PAGE_HEIGHT / 2) + margin + (NODE_HEIGHT / 2)
+
+## Output Configuration
+
+### File Naming
+- Pattern: {prefix}_{timestamp}.{ext}
+- Timestamp format: YYYYMMDD_HHMMSS
+- Default prefix: "Network Diagram of {city}" or "network_diagram"
+
+### Directory Structure
+output_diagrams/
+├── {region}/
+│   ├── {country}/
+│   │   └── {city}/
+│   │       └── {prefix}_{timestamp}.drawio
+
+### Export Formats
+- drawio (primary)
+- png, svg, pdf (optional)
+
+## Error Handling
+
+### Connection Errors
+- NetmikoTimeoutException
+- NetmikoAuthenticationException
+- paramiko.SSHException
+- Log failures and continue with other devices
+
+### File Operations
+- FileNotFoundError for missing input files
+- json.JSONDecodeError for invalid JSON
+- Exit with appropriate error messages
+
+## Dependencies
+
+### Python Packages
+- n2g>=0.3.2 (diagram generation)
+- netmiko>=4.3.0 (SSH connections)
+- paramiko>=2.9.5 (SSH tunneling)
+- graphviz>=0.21 (layout engine)
+- APScheduler>=3.10.0 (scheduling)
+- PyGithub>=2.1.0 (GitHub integration)
+- pillow>=10.0.0 (image export)
+- reportlab>=4.0.0 (PDF export)
+- python-dotenv (environment variables)
+
+### System Dependencies
+- graphviz (system package for dot binary)
+- Draw.io (optional for manual editing)
+
+## Environment Variables
+
+### Required for Production
+- JUMP_USERNAME=root
+- JUMP_PASSWORD=your_jump_server_password
+- NET_USERNAME=admin
+- NET_PASSWORD=your_device_password
+- GITHUB_TOKEN=your_github_token (optional)
+
+### Optional
+- GITHUB_REPO=your-org/network-diagrams
+- GITHUB_BRANCH=main
+
+## Workflow
+
+1. **Data Collection** (live_puller.py):
+   - Read devices.csv or use seed devices
+   - Connect to jump server (192.168.1.10)
+   - SSH tunnel to each device with legacy algorithm support
+   - Execute show commands (version, cdp neighbors, vlan, ip interface)
+   - Parse interface descriptions for external connections
+   - Save topology_data.json with device types and wan_connections
+
+2. **Diagram Generation** (generate_diagram.py):
+   - Load topology_data.json
+   - Apply 6-page grid placement rules:
+     - Page 1: ISP (external square box)
+     - Page 2: SDWAN (top) → Firewall/WAN Switch (below)
+     - Page 5: Distribution (upper half) → Access/AP (lower half)
+   - Add external device connections with labeled links
+   - Use appropriate shapes (Cisco for internal, squares for external)
+   - Generate Draw.io XML with hierarchical layout
+   - Save to output_diagrams/ with timestamp
+
+3. **Automation** (scheduler.py):
+   - Scheduled execution (default 60 minutes)
+   - Optional GitHub upload for version control
+   - Push to GitHub (optional)
+
+## Troubleshooting
+
+### Common Issues
+- "Administratively prohibited": Jump server doesn't allow TCP forwarding
+- "Authentication failed": Wrong credentials
+- "No matching key exchange method": Device uses legacy algorithms
+- "devices.csv not found": Wrong working directory
+
+### Debug Steps
+1. Test jump server connection manually
+2. Test device connection through jump server
+3. Check environment variables
+4. Verify CSV file format
+5. Check log outputs
+
+---
+
+This log file serves as the authoritative reference for all project rules and configurations.
+Last updated: 2026-03-17

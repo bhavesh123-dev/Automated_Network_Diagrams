@@ -1,0 +1,19 @@
+network-automation/
+├── .github/
+│ ├── INSTRUCTIONS.md ← Main AI guide (attach to every Copilot prompt)
+│ └── copilot-instructions.md ← Auto-loaded by VS Code Copilot silently
+├── .vscode/
+│ └── settings.json ← Python venv, Draw.io theme, Copilot config
+├── prompts/ ← Ready-to-paste Copilot prompts
+│ ├── generate_from_json.md
+│ ├── live_device_pull.md
+│ ├── export_formats.md
+│ └── github_upload.md
+├── schemas/
+│ └── topology_schema.json ← VS Code validates your JSON against this
+├── tests/
+│ └── mock_cdp_output.txt ← Test CDP parser without real devices
+├── config.py ← All settings centralised here
+├── github_uploader.py ← Auto-push diagrams to GitHub
+├── .env.example ← Credential template (copy → .env)
+└── .gitignore ← Keeps secrets + outputs out of git

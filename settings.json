@@ -1,0 +1,68 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/venv/bin/python3",
+  "python.terminal.activateEnvironment": true,
+
+  "editor.formatOnSave": true,
+  "editor.rulers": [88],
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.formatOnSave": true
+  },
+
+  "files.associations": {
+    "*.drawio": "xml",
+    "*.drawio.xml": "xml"
+  },
+
+  "hediet.vscode-drawio.resizeImages": true,
+  "hediet.vscode-drawio.theme": "Kennedy",
+
+  "github.copilot.enable": {
+    "*": true,
+    "python": true,
+    "markdown": true,
+    "json": true
+  },
+
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": ".github/INSTRUCTIONS.md"
+    }
+  ],
+
+  "terminal.integrated.env.linux": {
+    "NET_USERNAME": "",
+    "NET_PASSWORD": "",
+    "NET_SECRET": "",
+    "GITHUB_TOKEN": "",
+    "GITHUB_REPO": ""
+  },
+
+  "json.schemas": [
+    {
+      "fileMatch": ["topology_data.json", "**/topology_*.json"],
+      "url": "./schemas/topology_schema.json"
+    }
+  ],
+
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--max-line-length=100"],
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "venv/": true,
+    ".pytest_cache/": true
+  },
+
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "generate_diagram.py": "live_puller.py, scheduler.py, config.py",
+    "*.drawio": "${capture}.png, ${capture}.svg, ${capture}.pdf"
+  }
+}

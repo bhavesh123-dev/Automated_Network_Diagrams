@@ -1,0 +1,4 @@
+IP Address,System Name,Stack,Region,Country,City,Node_Type
+192.168.1.101,SW_LEME_CO1.le.grp,FALSE,Test,Test,Test,Distribution
+192.168.1.100,SW-CHUB-EXT.le.grp,FALSE,Test,Test,Test,WAN
+192.168.1.102,SW_Test_02.le.grp,FALSE,Test,Test,Test,Access

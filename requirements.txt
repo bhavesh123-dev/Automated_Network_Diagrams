@@ -1,0 +1,33 @@
+# Network Automation Project Requirements
+# Install with: pip install -r requirements.txt
+
+# Core dependencies (required)
+n2g>=0.3.2              # Network diagram generation (Draw.io XML)
+netmiko>=4.3.0          # SSH connections to network devices
+paramiko>=2.9.5         # SSH library (for jump server tunnels)
+graphviz>=0.21          # Graph layout engine (for diagram positioning)
+
+# Scheduling and automation
+APScheduler>=3.10.0     # Task scheduling (cron-like jobs)
+
+# GitHub integration
+PyGithub>=2.1.0         # GitHub API client for auto-uploading diagrams
+
+# Export formats
+pillow>=10.0.0          # Image processing (PNG export)
+reportlab>=4.0.0        # PDF generation
+
+# Environment and configuration
+python-dotenv           # Load environment variables from .env files
+
+# Optional dependencies (may not install on all systems)
+# graphviz2drawio         # Convert Graphviz DOT to Draw.io format (optional)
+
+# =============================================================================
+# SYSTEM DEPENDENCIES (Ubuntu/Debian)
+# =============================================================================
+# sudo apt update && sudo apt install -y graphviz
+#   - Required for graphviz Python package to work (provides 'dot' binary)
+#
+# Optional: sudo snap install drawio
+#   - For high-quality PNG/SVG/PDF export from .drawio files
